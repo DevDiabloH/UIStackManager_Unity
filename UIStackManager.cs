@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EPageStackInitialize { Initialize, NotInitialize }
+
 public class UIStackManager : MonoBehaviour
 {
     public static UIStackManager instance = null;
@@ -52,16 +54,16 @@ public class UIStackManager : MonoBehaviour
         }
     }
 
-    public void StackInitialize(EPageSackInitialize data)
+    public void StackInitialize(EPageStackInitialize data)
     {
         switch (data)
         {
-            case EPageSackInitialize.Initialize:
+            case EPageStackInitialize.Initialize:
                 stack.Clear();
                 stack.Push(defaultPageCode);
                 break;
 
-            case EPageSackInitialize.NotInitialize:
+            case EPageStackInitialize.NotInitialize:
                 break;
         }
     }
