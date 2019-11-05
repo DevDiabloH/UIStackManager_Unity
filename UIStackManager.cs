@@ -5,8 +5,8 @@ using UnityEngine;
 public class UIStackManager : MonoBehaviour
 {
     public static UIStackManager instance = null;
-    public string currPageCode = string.Empty;
-    public string debugTargetPageCode = string.Empty;
+    public string debugPageCode = string.Empty;
+    public string PageCode { get; private set; }
 
     private readonly string defaultPageCode = "A00";
     private readonly string prefabPath = "Prefab/UI/Page/";
@@ -42,13 +42,13 @@ public class UIStackManager : MonoBehaviour
 
     private void Start()
     {
-        if (debugTargetPageCode == "")
+        if (debugPageCode == "")
         {
             TryOpenPage(defaultPageCode);
         }
         else
         {
-            TryOpenPage(debugTargetPageCode);
+            TryOpenPage(debugPageCode);
         }
     }
 
@@ -68,10 +68,10 @@ public class UIStackManager : MonoBehaviour
 
     public bool IsCreatedPage(string key)
     {
-        if (key != currPageCode && key != "")
+        if (key != PageCode && key != "")
         {
             stack.Push(key);
-            currPageCode = key;
+            PageCode = key;
         }
 
         if (Dic.Count == 0)
@@ -145,7 +145,7 @@ public class UIStackManager : MonoBehaviour
         Off();
         stack.Pop();
         string _prevPageCode = stack.Pop();
-        currPageCode = _prevPageCode;
+        PageCode = _prevPageCode;
         dic[_prevPageCode].SetActive(true);
         stack.Push(_prevPageCode);
     }
@@ -159,7 +159,7 @@ public class UIStackManager : MonoBehaviour
 
         foreach (KeyValuePair<string, GameObject> items in Dic)
         {
-            if(true == Dic[items.Key].activeSelf)
+            if (true == Dic[items.Key].activeSelf)
             {
                 Dic[items.Key].SetActive(false);
             }
