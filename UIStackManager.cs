@@ -111,7 +111,8 @@ public class UIStackManager : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(Resources.Load<GameObject>(prefabPath + key));
+                    GameObject newObject = Instantiate(Resources.Load<GameObject>(prefabPath + key));
+                    AddDictionary(key, newObject);
                 }
             }
             catch
@@ -159,7 +160,7 @@ public class UIStackManager : MonoBehaviour
 
         foreach (KeyValuePair<string, GameObject> items in Dic)
         {
-            if (true == Dic[items.Key].activeSelf)
+            if(true == Dic[items.Key].activeSelf)
             {
                 Dic[items.Key].SetActive(false);
             }

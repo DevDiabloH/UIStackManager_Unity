@@ -29,6 +29,6 @@ public class OpenPage : MonoBehaviour
 
     protected void Open()
     {
-        UIDictionary.instance.TryOpenPage(targetPage);
+        UIStackManager.instance.TryOpenPage(targetPage);
     }
 }
