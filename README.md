@@ -16,4 +16,7 @@ How to change from main page to another page.
  ```
  
  in canvas button
- Canvas/Button add OpenPage component. write your page code.
+ ```
+ Canvas/Button add OpenPage component. 
+ and write your page code.
+ ```
