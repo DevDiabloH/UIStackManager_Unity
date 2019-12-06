@@ -10,24 +10,24 @@ public class UIStackManager : MonoBehaviour
     public string debugPageCode = string.Empty;
     public string PageCode { get; private set; }
 
-    private readonly string defaultPageCode = "A00";
-    private readonly string prefabPath = "Prefab/UI/Page/";
+    private readonly string m_DefaultPageCode = "A00";
+    private readonly string m_PrefabPath = "Prefab/UI/Page/";
 
-    private Stack<string> stack;
+    private Stack<string> m_Stack;
     public Stack<string> Stack
     {
         get
         {
-            return stack;
+            return m_Stack;
         }
     }
 
-    private Dictionary<string, GameObject> dic;
+    private Dictionary<string, GameObject> m_Dic;
     public Dictionary<string, GameObject> Dic
     {
         get
         {
-            return dic;
+            return m_Dic;
         }
     }
 
@@ -38,15 +38,15 @@ public class UIStackManager : MonoBehaviour
             instance = this;
         }
 
-        stack = new Stack<string>();
-        dic = new Dictionary<string, GameObject>();
+        m_Stack = new Stack<string>();
+        m_Dic = new Dictionary<string, GameObject>();
     }
 
     private void Start()
     {
         if (debugPageCode == "")
         {
-            TryOpenPage(defaultPageCode);
+            TryOpenPage(m_DefaultPageCode);
         }
         else
         {
@@ -59,8 +59,8 @@ public class UIStackManager : MonoBehaviour
         switch (data)
         {
             case EPageStackInitialize.Initialize:
-                stack.Clear();
-                stack.Push(defaultPageCode);
+                m_Stack.Clear();
+                m_Stack.Push(m_DefaultPageCode);
                 break;
 
             case EPageStackInitialize.NotInitialize:
@@ -72,7 +72,7 @@ public class UIStackManager : MonoBehaviour
     {
         if (key != PageCode && key != "")
         {
-            stack.Push(key);
+            m_Stack.Push(key);
             PageCode = key;
         }
 
@@ -105,15 +105,15 @@ public class UIStackManager : MonoBehaviour
         {
             try
             {
-                GameObject obj = Resources.Load<GameObject>(prefabPath + key);
+                GameObject obj = Resources.Load<GameObject>(m_PrefabPath + key);
 
                 if (obj == null)
                 {
-                    Debug.LogError("Exception :: Prefab not found. Resources/" + prefabPath + key);
+                    Debug.LogError("Exception :: Prefab not found. Resources/" + m_PrefabPath + key);
                 }
                 else
                 {
-                    GameObject newObject = Instantiate(Resources.Load<GameObject>(prefabPath + key));
+                    GameObject newObject = Instantiate(Resources.Load<GameObject>(m_PrefabPath + key));
                     AddDictionary(key, newObject);
                 }
             }
@@ -125,7 +125,7 @@ public class UIStackManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Exception :: Prefab not found. Resources/" + prefabPath + key);
+                    Debug.LogError("Exception :: Prefab not found. Resources/" + m_PrefabPath + key);
                 }
             }
         }
@@ -134,23 +134,23 @@ public class UIStackManager : MonoBehaviour
     public void AddDictionary(string key, GameObject obj)
     {
         Off();
-        dic.Add(key, obj);
+        m_Dic.Add(key, obj);
     }
 
     public void PrevPage()
     {
-        if (stack.Count < 2)
+        if (m_Stack.Count < 2)
         {
             Debug.LogError("prev page is not found.");
             return;
         }
 
         Off();
-        stack.Pop();
-        string _prevPageCode = stack.Pop();
+        m_Stack.Pop();
+        string _prevPageCode = m_Stack.Pop();
         PageCode = _prevPageCode;
-        dic[_prevPageCode].SetActive(true);
-        stack.Push(_prevPageCode);
+        m_Dic[_prevPageCode].SetActive(true);
+        m_Stack.Push(_prevPageCode);
     }
 
     private void Off()
