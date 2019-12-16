@@ -168,4 +168,28 @@ public class UIStackManager : MonoBehaviour
             }
         }
     }
+
+    private void OnGUI()
+    {
+        GUIStyle style;
+        float width;
+        float height;
+        style = new GUIStyle();
+        style.fontSize = 40;
+        style.normal.textColor = Color.green;
+
+        width = Screen.width / 1.5f;
+        height = Screen.height;
+
+
+        GUI.Label(new Rect(0, height - 100f, 100, 100), "Stack Count :: " + stack.Count, style);
+        GUI.Label(new Rect(0, height - 150f, 100, 100), "Curr Code :: " + CURR_PAGE_CODE, style);
+
+        string[] strs = stack.ToArray();
+
+        for (int i = 0; i < strs.Length; i++)
+        {
+            GUI.Label(new Rect(0, height - 200f + (i * -50f), 100, 100), "Stack [" + i + "] :: " + strs[i], style);
+        }
+    }
 }
